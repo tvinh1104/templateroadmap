@@ -104,7 +104,8 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .kpi b{display:block;font-size:22px;font-weight:300;color:var(--ink)}
 .tip{margin-top:14px;padding:8px 12px;background:#fff8dc;border-radius:4px;color:#5c4a00}
 .note{border:1px dashed var(--mute);border-radius:6px;padding:12px 16px;font-size:14px;color:var(--mute);margin-bottom:40px}
-.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:48px 56px}
+.ref{border-left:2px solid var(--acc);padding-left:14px;margin-bottom:44px;font-size:14px;color:var(--mute);max-width:44em}
 .case{border-top:2px solid var(--ink);padding-top:18px}
 .case h3{font-size:1.05rem;font-weight:600;margin:6px 0 14px}
 .case p{font-size:14px;color:var(--mute);margin-bottom:10px}
@@ -285,6 +286,7 @@ footer b{color:var(--ink);font-weight:500}
  <div>
   <p class="lead">Những gì Trường THCS Quang Trung đã đạt được sau khi triển khai.</p>
   <!-- MOCK UP: số liệu và mô tả use-case là giả định, thay bằng dữ liệu thật của Trường THCS Quang Trung trước khi gửi khách hàng -->
+  <p class="ref">Đây là use-case tham khảo từ Trường THCS Quang Trung, giúp Trường Tiểu học Lê Hồng Phong hình dung cụ thể hơn giá trị hệ thống mang lại và đặt kỳ vọng phù hợp với dự án của trường mình.</p>
   <div class="cases">
    <article class="case">
     <span class="tag">Ban giám hiệu</span>
@@ -292,6 +294,13 @@ footer b{color:var(--ink);font-weight:500}
     <p><b>Trước:</b> giao việc qua Zalo, việc hay bị sót, khó biết ai đã đọc.</p>
     <p><b>Sau:</b> mỗi việc có người phụ trách, hạn hoàn thành và nhắc việc tự động.</p>
     <div class="big">Việc trễ hạn giảm 60% sau 3 tháng</div>
+   </article>
+   <article class="case">
+    <span class="tag">Ban giám hiệu</span>
+    <h3>Báo cáo thời gian thực cho giao ban</h3>
+    <p><b>Trước:</b> các khối tổng hợp báo cáo thủ công trước mỗi buổi giao ban, số liệu khó thống nhất.</p>
+    <p><b>Sau:</b> Ban giám hiệu mở trang báo cáo là thấy ngay tiến độ, việc quá hạn và khối lượng công việc của từng khối, làm cơ sở cho buổi họp.</p>
+    <div class="big">Tiết kiệm khoảng 2 giờ tổng hợp báo cáo mỗi tuần</div>
    </article>
    <article class="case">
     <span class="tag">Khối chuyên môn</span>
