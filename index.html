@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#16181d;--mute:#6b7079;--line:#e4e6ea;--bg:#fff;--soft:#f5f6f8;--acc:#1f4fd8}
+:root{--ink:#16181d;--mute:#6b7079;--line:#e4e6ea;--bg:#fff;--soft:#f5f6f8;--acc:#1f4fd8;--bad:#b9421a}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth;scroll-padding-top:64px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -61,6 +61,26 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .grid{display:grid;grid-template-columns:200px 1fr;gap:40px}
 .grid>h2{font-size:14px;font-weight:500;color:var(--mute);padding-top:.7em}
 .lead{font-weight:300;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1.2;letter-spacing:-.02em;max-width:20em;margin-bottom:48px}
+.flow{padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.utabs{margin-bottom:20px}
+.flow>h3{font-size:1.1rem;font-weight:600;margin-bottom:22px}
+.pr{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.pr li{position:relative;padding-top:18px;border-top:1px solid #cfd2d8}
+.pr li::before{content:"";position:absolute;left:0;top:-5px;width:9px;height:9px;border-radius:50%;background:var(--ink)}
+.pr li:not(:last-child)::after{content:"";position:absolute;top:-4px;right:-17px;width:7px;height:7px;border-top:1px solid var(--mute);border-right:1px solid var(--mute);transform:rotate(45deg)}
+.pr li.bad{border-top-color:var(--bad)}
+.pr li.bad::before{background:var(--bad)}
+.pr b{display:block;font-weight:500;font-size:15px}
+.pr small{display:block;color:var(--mute);font-size:13px}
+.pr em{display:block;font-style:normal;font-size:13px;color:var(--bad);margin-top:8px;line-height:1.45}
+.pr li.good{border-top-color:var(--acc)}
+.pr li.good::before{background:var(--acc)}
+.pr li.good em{color:var(--acc)}
+.imp.good{border-left-color:var(--acc)}
+.imp.good small{color:var(--acc)}
+.imp{margin-top:26px;border-left:2px solid var(--bad);padding:2px 0 2px 16px;max-width:46em}
+.imp small{display:block;color:var(--bad);font-weight:500;font-size:13px;margin-bottom:2px}
+.imp p{font-size:15px}
 .row{display:grid;grid-template-columns:180px 1fr 1fr;gap:32px;padding:24px 0;border-top:1px solid var(--line)}
 .row:last-child{border-bottom:1px solid var(--line)}
 .row h3{font-size:1rem;font-weight:600}
@@ -73,9 +93,9 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .tag.hi{border-color:var(--acc);color:var(--acc)}
 .demo{margin-top:56px}
 .demo>p{font-size:13px;color:var(--mute);margin-bottom:12px}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.tabs button{font:inherit;font-size:14px;padding:5px 14px;border:1px solid var(--line);background:#fff;border-radius:99px;color:var(--mute);cursor:pointer}
-.tabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.tabs,.utabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button,.utabs button{font:inherit;font-size:14px;padding:5px 14px;border:1px solid var(--line);background:#fff;border-radius:99px;color:var(--mute);cursor:pointer}
+.tabs button[aria-selected=true],.utabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
 .app{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;font-size:13px}
 .app .top{background:#1b57b8;color:#fff;padding:9px 16px;display:flex;justify-content:space-between;font-weight:500}
 .app .top span{font-weight:400;opacity:.85}
@@ -127,6 +147,8 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .method p{font-size:15px;color:var(--mute)}
 .method em{display:block;font-style:normal;font-size:13px;color:var(--ink);margin-top:8px}
 .method em::before{content:"→ "}
+.methods>div{border-top:2px solid var(--ink);padding-top:20px}
+.methods h3{font-size:clamp(1.25rem,2.2vw,1.6rem)!important;font-weight:500!important;letter-spacing:-.015em;line-height:1.25;margin:0!important}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:56px}
 .steps h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
 .steps p{font-size:15px;color:var(--mute)}
@@ -148,13 +170,14 @@ footer b{color:var(--ink);font-weight:500}
  .grid{grid-template-columns:1fr;gap:12px}
  .grid>h2{padding-top:0}
  .row{grid-template-columns:1fr;gap:12px}
+ .pr{grid-template-columns:1fr 1fr}.pr li::after{display:none}
  .rh{display:none}.rr{grid-template-columns:1fr;gap:16px;padding-left:24px}.lbl{display:block}
  .two,.people,.cases,.steps{grid-template-columns:1fr;gap:28px}
  .app .body{grid-template-columns:1fr}.side{display:none}.kpi{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr 1fr}.tr.h{display:none}
  .hero{padding:64px 28px 48px}
  section{padding:56px 0}
 }
-@media(max-width:520px){.brand{display:none}}
+@media(max-width:520px){.brand{display:none}.pr{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -190,21 +213,10 @@ footer b{color:var(--ink);font-weight:500}
  <h2>Hiện trạng</h2>
  <div>
   <p class="lead">Công việc đang nằm rải rác trong các buổi họp, nhóm Zalo và máy cá nhân.</p>
-  <div class="row">
-   <h3>Ban giám hiệu</h3>
-   <div><small>Khó khăn hiện tại</small><p>Sau họp chưa có nơi lưu thông tin. Công việc được đôn đốc qua giao ban và Zalo nên đôi khi bị quên, gây chậm trễ. Giao việc xong không biết người nhận đã đọc chưa, và khó ghi nhận đóng góp của từng người trong sự kiện.</p></div>
-   <div><small>Mong muốn</small><p>Một nơi tập trung để giao việc, theo dõi tiến độ và tự động nhắc việc.</p></div>
-  </div>
-  <div class="row">
-   <h3>Khối chuyên môn</h3>
-   <div><small>Khó khăn hiện tại</small><p>Kế hoạch giảng dạy, hội thảo, chuyên đề nằm ở từng cá nhân. Tìm tài liệu mất thời gian và khó biết ai đang làm gì để hỏi.</p></div>
-   <div><small>Mong muốn</small><p>Một nơi quản lý tài liệu để tổ chức công việc hiệu quả hơn.</p></div>
-  </div>
-  <div class="row">
-   <h3>Khối hành chính dịch vụ</h3>
-   <div><small>Khó khăn hiện tại</small><p>Kế hoạch tuyển sinh thiếu đồng nhất thông tin. Thông tin cập nhật chậm làm trễ việc xử lý hồ sơ, và rất khó tìm lại trên Zalo.</p></div>
-   <div><small>Mong muốn</small><p>Một khu vực quản lý tập trung toàn bộ thông tin của mỗi đợt tuyển sinh.</p></div>
-  </div>
+  <div class="utabs" role="group" aria-label="Chọn đơn vị" data-grp="ht"><button type="button" aria-selected="true">Ban giám hiệu</button><button type="button" aria-selected="false">Khối chuyên môn</button><button type="button" aria-selected="false">Khối hành chính dịch vụ</button></div>
+  <div class="flow" data-grp="ht" data-i="0"><ol class="pr"><li class="bad"><b>Họp giao ban</b><small>Chốt đầu việc sau họp</small><em>Chưa có nơi lưu thông tin sau họp</em></li><li class="bad"><b>Giao việc</b><small>Qua giao ban và Zalo</small><em>Không biết người nhận đã đọc chưa</em></li><li class="bad"><b>Đôn đốc tiến độ</b><small>Nhắc việc thủ công</small><em>Việc đôi khi bị quên, gây chậm trễ</em></li><li class="bad"><b>Tổng kết sự kiện</b><small>Đánh giá và khen thưởng</small><em>Khó ghi nhận đóng góp của từng người</em></li></ol><div class="imp"><small>Ảnh hưởng</small><p>Việc bị quên hoặc trễ làm gián đoạn các sự kiện của trường. Lãnh đạo mất thời gian đôn đốc thay vì điều hành, và việc khen thưởng thiếu căn cứ rõ ràng.</p></div></div>
+  <div class="flow" data-grp="ht" data-i="1" hidden><ol class="pr"><li class="bad"><b>Lập kế hoạch</b><small>Giảng dạy, hội thảo, chuyên đề</small><em>Kế hoạch nằm ở từng cá nhân</em></li><li class="bad"><b>Chia sẻ và phối hợp</b><small>Trao đổi giữa các thành viên</small><em>Khó biết ai đang làm gì để hỏi</em></li><li class="bad"><b>Tìm lại tài liệu</b><small>Khi cần tham khảo, sử dụng</small><em>Tìm tài liệu mất nhiều thời gian</em></li><li><b>Triển khai giảng dạy</b><small>Theo kế hoạch của khối</small></li></ol><div class="imp"><small>Ảnh hưởng</small><p>Giáo viên mất thời gian tìm kiếm thay vì dành cho chuyên môn. Công việc dễ trùng lặp và kế hoạch giữa các tổ thiếu đồng bộ.</p></div></div>
+  <div class="flow" data-grp="ht" data-i="2" hidden><ol class="pr"><li class="bad"><b>Lập kế hoạch tuyển sinh</b><small>Theo từng đợt</small><em>Thông tin thiếu đồng nhất</em></li><li class="bad"><b>Trao đổi thông tin</b><small>Chủ yếu qua Zalo</small><em>Rất khó tìm lại thông tin cũ</em></li><li class="bad"><b>Cập nhật tiến độ</b><small>Giữa các bộ phận liên quan</small><em>Cập nhật chậm</em></li><li class="bad"><b>Xử lý hồ sơ</b><small>Tiếp nhận và phản hồi phụ huynh</small><em>Hồ sơ bị xử lý trễ</em></li></ol><div class="imp"><small>Ảnh hưởng</small><p>Hồ sơ chậm hoặc sai lệch thông tin khiến phụ huynh phải chờ và hỏi lại nhiều lần, ảnh hưởng đến hình ảnh và kết quả tuyển sinh của trường.</p></div></div>
  </div>
 </div></section>
 
@@ -217,15 +229,11 @@ footer b{color:var(--ink);font-weight:500}
    <div><h3>Triển khai bộ ứng dụng Work+</h3><p>Số hóa và cải tiến quy trình vận hành nội bộ để giảm giấy tờ, tiết kiệm thời gian giữa các bộ phận, và đặt nền tảng cho báo cáo quản trị.</p></div>
    <div><h3>Bàn giao công nghệ</h3><p>Cán bộ nhân viên nhà trường tiếp nhận toàn bộ công nghệ và chủ động mở rộng thiết lập theo tình hình vận hành thực tế.</p></div>
   </div>
-  <h3 class="sub">Phạm vi và kết quả kỳ vọng</h3>
-  <div class="scroll"><table class="tbl">
-   <thead><tr><th>Đơn vị</th><th>Được số hóa trong dự án</th><th>Hạng mục bắt đầu</th><th>Kết quả kỳ vọng</th></tr></thead>
-   <tbody>
-    <tr><td>Ban giám hiệu</td><td>Không gian quản lý công việc chung của toàn trường</td><td>Kế hoạch tổ chức sự kiện năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
-    <tr><td>Khối chuyên môn</td><td>Không gian quản lý công việc của khối</td><td>Kế hoạch giảng dạy năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
-    <tr><td>Khối hành chính</td><td>Không gian quản lý công việc của khối</td><td>Thủ tục tiếp nhận học sinh năm học 2026-2027 <span class="tag">Triển khai sau</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
-   </tbody>
-  </table></div>
+  <h3 class="sub">Kết quả kỳ vọng</h3>
+  <div class="utabs" role="group" aria-label="Chọn đơn vị" data-grp="kq"><button type="button" aria-selected="true">Ban giám hiệu</button><button type="button" aria-selected="false">Khối chuyên môn</button><button type="button" aria-selected="false">Khối hành chính dịch vụ</button></div>
+  <div class="flow" data-grp="kq" data-i="0"><ol class="pr"><li class="good"><b>Họp giao ban</b><small>Chốt đầu việc ngay trên hệ thống</small><em>Thông tin sau họp được lưu ở một nơi</em></li><li class="good"><b>Giao việc</b><small>Có người nhận, có hạn hoàn thành</small><em>Mỗi việc đều rõ người phụ trách</em></li><li class="good"><b>Theo dõi tiến độ</b><small>Xem trên trang báo cáo</small><em>Hệ thống tự động nhắc việc</em></li><li class="good"><b>Tổng kết sự kiện</b><small>Dựa trên kết quả đã ghi nhận</small><em>Ghi nhận đóng góp của từng người</em></li></ol><div class="imp good"><small>Kết quả kỳ vọng</small><p>Khu vực tập trung để giao việc và quản lý kết quả công việc. Ban giám hiệu nắm tiến độ theo thời gian thực và có căn cứ cho các buổi giao ban.</p></div></div>
+  <div class="flow" data-grp="kq" data-i="1" hidden><ol class="pr"><li class="good"><b>Lập kế hoạch</b><small>Giảng dạy, hội thảo, chuyên đề</small><em>Kế hoạch lưu tập trung của khối</em></li><li class="good"><b>Chia sẻ và phối hợp</b><small>Giao việc và trao đổi trên từng việc</small><em>Ai cũng thấy ai đang làm gì</em></li><li class="good"><b>Tìm lại tài liệu</b><small>Từ nơi quản lý tài liệu chung</small><em>Tìm nhanh, không phụ thuộc cá nhân</em></li><li><b>Triển khai giảng dạy</b><small>Theo kế hoạch của khối</small></li></ol><div class="imp good"><small>Kết quả kỳ vọng</small><p>Khu vực tập trung để giao việc và quản lý kết quả công việc của khối. Giáo viên dành thời gian cho chuyên môn thay vì tìm kiếm tài liệu.</p></div></div>
+  <div class="flow" data-grp="kq" data-i="2" hidden><ol class="pr"><li class="good"><b>Lập kế hoạch tuyển sinh</b><small>Theo từng đợt</small><em>Một khu vực riêng cho mỗi đợt</em></li><li class="good"><b>Trao đổi thông tin</b><small>Ngay trên từng công việc</small><em>Dễ tìm lại, không trôi qua Zalo</em></li><li class="good"><b>Cập nhật tiến độ</b><small>Giữa các bộ phận liên quan</small><em>Thông tin cập nhật tức thì</em></li><li class="good"><b>Xử lý hồ sơ</b><small>Tiếp nhận và phản hồi phụ huynh</small><em>Xử lý đúng hạn nhờ nhắc việc</em></li></ol><div class="imp good"><small>Kết quả kỳ vọng</small><p>Khu vực tập trung quản lý toàn bộ thông tin của mỗi đợt tuyển sinh, giúp hồ sơ được xử lý nhanh và thống nhất.</p></div></div>
   <div class="demo">
    <p>Hình dung: không gian làm việc trên Base Wework. Giao diện dựng lại theo hệ thống, dữ liệu là minh họa của nhà trường.</p>
    <div class="tabs" role="tablist" aria-label="Màn hình minh họa">
@@ -287,6 +295,15 @@ footer b{color:var(--ink);font-weight:500}
     </div>
    </div>
   </div>
+  <h3 class="sub" style="margin-top:72px">Phạm vi dự án</h3>
+  <div class="scroll"><table class="tbl">
+   <thead><tr><th>Đơn vị</th><th>Được số hóa trong dự án</th><th>Hạng mục bắt đầu</th></tr></thead>
+   <tbody>
+    <tr><td>Ban giám hiệu</td><td>Không gian quản lý công việc chung của toàn trường</td><td>Kế hoạch tổ chức sự kiện năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td></tr>
+    <tr><td>Khối chuyên môn</td><td>Không gian quản lý công việc của khối</td><td>Kế hoạch giảng dạy năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td></tr>
+    <tr><td>Khối hành chính</td><td>Không gian quản lý công việc của khối</td><td>Thủ tục tiếp nhận học sinh năm học 2026-2027 <span class="tag">Triển khai sau</span></td></tr>
+   </tbody>
+  </table></div>
  </div>
 </div></section>
 
@@ -333,13 +350,13 @@ footer b{color:var(--ink);font-weight:500}
 
 <!-- 4. PHƯƠNG PHÁP -->
 <section id="phuong-phap"><div class="wrap grid">
- <h2>Cách thức triển khai</h2>
+ <h2>Phương pháp triển khai</h2>
  <div>
   <p class="lead">Cùng xây, cùng thử, rồi bàn giao để nhà trường tự làm chủ.</p>
-  <div class="steps">
-   <div><h3>Đồng xây dựng cuốn chiếu</h3><p>Base tư vấn và xây giải pháp cùng Ban tiên phong theo từng vòng: thiết lập, rồi thử nghiệm, rồi hiệu chỉnh.</p></div>
-   <div><h3>Ban tiên phong làm chủ</h3><p>Ban tiên phong tiếp nhận hệ thống, hoàn thiện giải pháp với sự hỗ trợ của Base, và truyền thông nội bộ trước khi vận hành.</p></div>
-   <div><h3>Đào tạo và tối ưu liên tục</h3><p>Đào tạo tập trung cho toàn bộ cán bộ nhân viên, sau đó review định kỳ hàng tháng để tối ưu và mở rộng.</p></div>
+  <div class="steps methods">
+   <div><h3>Đồng xây dựng cuốn chiếu</h3></div>
+   <div><h3>Ban tiên phong làm chủ</h3></div>
+   <div><h3>Đào tạo và tối ưu liên tục</h3></div>
   </div>
   <div class="people">
    <div><h3 class="sub">Ban tiên phong nhà trường</h3>
@@ -404,6 +421,12 @@ footer b{color:var(--ink);font-weight:500}
   <div><b>Liên hệ dự án</b><br>Nguyễn Tuấn Vinh, Base.vn<br><a href="mailto:vinh.nguyen03@base.vn">vinh.nguyen03@base.vn</a></div>
  </div>
 </footer>
+<script>
+document.querySelectorAll('.utabs').forEach(function(bar){var g=bar.dataset.grp;bar.querySelectorAll('button').forEach(function(b,i){b.addEventListener('click',function(){
+ bar.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',x===b)});
+ document.querySelectorAll('.flow[data-grp="'+g+'"]').forEach(function(f){f.hidden=(+f.dataset.i!==i)});
+});});});
+</script>
 <script>
 document.querySelectorAll('.tabs button').forEach(function(t){t.addEventListener('click',function(){
  document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===t)});
