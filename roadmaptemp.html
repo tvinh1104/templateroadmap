@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lộ trình triển khai Base | Trường Tiểu học Lê Hồng Phong</title>
+<meta name="description" content="Tài liệu trao đổi cho buổi kickoff dự án triển khai Base Work+ tại Trường Tiểu học Lê Hồng Phong.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16181d;--mute:#6b7079;--line:#e4e6ea;--bg:#fff;--soft:#f5f6f8;--acc:#1f4fd8}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font:400 16px/1.65 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:24px}
+.brand{font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:8px}
+.brand img{height:24px;width:auto}
+.lock{display:flex;align-items:center;gap:14px;margin-bottom:44px;font-size:14px;color:var(--mute)}
+.lock img{height:44px;width:auto}
+.lock .x{width:1px;height:28px;background:var(--line)}
+.lock span{color:var(--ink);font-weight:500}
+.gantt{min-width:780px;font-size:13px}
+.gr{display:grid;grid-template-columns:230px 1fr;border-top:1px solid var(--line)}
+.gl{padding:12px 12px 12px 0}
+.gl b{display:block;font-weight:500;font-size:14px;line-height:1.35}
+.gl small{color:var(--mute);font-size:12px}
+.tl{display:grid;grid-template-columns:repeat(17,1fr);align-items:center;min-height:56px;background:linear-gradient(#f6f7f9,#f6f7f9) right top/calc(100%*3/17) 100% no-repeat,repeating-linear-gradient(to right,var(--line) 0 1px,transparent 1px calc(100%/17))}
+.gh .tl{min-height:0;align-items:stretch}
+.gh .gl{color:var(--mute);font-size:12px;align-self:end}
+.gantt .d{font-size:11px;text-align:center;color:var(--mute);line-height:1.25;padding:6px 0}
+.gantt .d b{display:block;font-weight:500;color:var(--ink);font-size:12px}
+.gantt .d.we b{color:#aeb3bb}
+.gantt .d.mo{text-align:left;padding-left:6px;color:var(--ink);font-weight:500}
+.bar{grid-row:1;height:10px;margin:0 2px;border-radius:5px;background:var(--ink)}
+.bar.o{background:linear-gradient(to right,var(--acc),rgba(31,79,216,.12))}
+.ms{grid-row:1;width:12px;height:12px;background:var(--acc);transform:rotate(45deg);justify-self:center}
+.gg{font-size:12px;color:var(--mute);padding:16px 0 6px;border-top:1px solid var(--line)}
+.sess{margin-top:40px;margin-bottom:0}
+.sess small{display:block;color:var(--acc);font-size:13px;font-weight:500;margin-bottom:2px}
+.sess em{display:block;font-style:normal;font-size:13px;margin-top:6px;color:var(--ink)}
+.school{display:flex;align-items:center;gap:12px;margin-top:28px;font-size:14px;color:var(--mute)}
+.school img{height:40px;width:auto}
+.school b{color:var(--ink);font-weight:500}
+
+nav{display:flex;gap:22px;overflow-x:auto;font-size:14px;color:var(--mute);scrollbar-width:none}
+nav a{text-decoration:none;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+.hero{padding:96px 28px 72px}
+.hero h1{font-weight:300;font-size:clamp(2.2rem,5.6vw,4.2rem);line-height:1.08;letter-spacing:-.03em;max-width:15em}
+.hero p{margin-top:28px;max-width:34em;color:var(--mute);font-size:1.1rem}
+.meta{display:flex;flex-wrap:wrap;gap:8px 36px;margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--mute)}
+.meta b{display:block;color:var(--ink);font-weight:500}
+section{border-top:1px solid var(--line);padding:72px 0}
+.grid{display:grid;grid-template-columns:200px 1fr;gap:40px}
+.grid>h2{font-size:14px;font-weight:500;color:var(--mute);padding-top:.7em}
+.lead{font-weight:300;font-size:clamp(1.6rem,3.2vw,2.4rem);line-height:1.2;letter-spacing:-.02em;max-width:20em;margin-bottom:48px}
+.row{display:grid;grid-template-columns:180px 1fr 1fr;gap:32px;padding:24px 0;border-top:1px solid var(--line)}
+.row:last-child{border-bottom:1px solid var(--line)}
+.row h3{font-size:1rem;font-weight:600}
+.row small,.cap{display:block;font-size:13px;color:var(--mute);margin-bottom:4px}
+.row p{font-size:15px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:56px}
+.two h3{font-size:1.15rem;font-weight:500;margin-bottom:8px}
+.two p{color:var(--mute);font-size:15px}
+.tag{display:inline-block;font-size:12px;padding:1px 9px;border:1px solid var(--line);border-radius:99px;color:var(--mute);white-space:nowrap}
+.tag.hi{border-color:var(--acc);color:var(--acc)}
+.demo{margin-top:56px}
+.demo>p{font-size:13px;color:var(--mute);margin-bottom:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{font:inherit;font-size:14px;padding:5px 14px;border:1px solid var(--line);background:#fff;border-radius:99px;color:var(--mute);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.app{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;font-size:13px}
+.app .top{background:#1b57b8;color:#fff;padding:9px 16px;display:flex;justify-content:space-between;font-weight:500}
+.app .top span{font-weight:400;opacity:.85}
+.app .body{display:grid;grid-template-columns:190px 1fr;min-height:360px}
+.side{border-right:1px solid var(--line);padding:10px 0;background:#fafbfc}
+.side div{padding:5px 16px;color:#444}
+.side .g{font-size:11px;color:var(--mute);margin-top:12px}
+.side .on{background:#e8eefb;color:#1b57b8;font-weight:500}
+.main{padding:18px 20px;min-width:0}
+.main h4{font-size:15px;font-weight:600}
+.main .sub{color:var(--mute);margin-bottom:12px}
+.tr{display:grid;grid-template-columns:var(--c);gap:12px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.tr.h{border:0;color:var(--mute);font-size:12px;padding-bottom:4px}
+.tr b{font-weight:500;display:block}
+.tr small{color:var(--mute);font-size:12px}
+.st{display:inline-block;padding:0 8px;border-radius:4px;font-size:11px;line-height:18px;color:#fff;background:#2fa84f;white-space:nowrap}
+.st.r{background:#e06666}.st.y{background:#e8a317}.st.g{background:#8a8f98}
+.pb{height:4px;background:#e9ebef;border-radius:2px;overflow:hidden;margin-top:4px}
+.pb i{display:block;height:100%;background:#2fa84f}
+.grp{font-weight:600;background:#fffbea;padding:6px 8px;margin-top:10px;border-radius:4px}
+.fld{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.fld span{color:var(--mute)}
+.btn{display:inline-block;background:#1b57b8;color:#fff;border-radius:4px;padding:6px 14px;margin-top:12px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi div{border:1px solid var(--line);border-radius:6px;padding:10px 12px;color:var(--mute)}
+.kpi b{display:block;font-size:22px;font-weight:300;color:var(--ink)}
+.tip{margin-top:14px;padding:8px 12px;background:#fff8dc;border-radius:4px;color:#5c4a00}
+.note{border:1px dashed var(--mute);border-radius:6px;padding:12px 16px;font-size:14px;color:var(--mute);margin-bottom:40px}
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.case{border-top:2px solid var(--ink);padding-top:18px}
+.case h3{font-size:1.05rem;font-weight:600;margin:6px 0 14px}
+.case p{font-size:14px;color:var(--mute);margin-bottom:10px}
+.case p b{color:var(--ink);font-weight:500}
+.case .big{font-weight:300;font-size:1.7rem;line-height:1.2;letter-spacing:-.02em;color:var(--acc);margin-top:18px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:56px}
+.steps h3,.ph h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.steps p,.ph p{font-size:15px;color:var(--mute)}
+.people{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.people ul{list-style:none;padding:0}
+.people li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
+.people li span{color:var(--mute);text-align:right}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-bottom:64px}
+.ph{border-top:1px solid var(--ink);padding-top:16px;position:relative}
+.ph::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--ink)}
+.ph .d{font-size:13px;color:var(--acc);font-weight:500;margin-bottom:2px}
+.ph ul{padding-left:18px;margin:8px 0 14px;font-size:14px;color:var(--mute)}
+.ph .cap{margin-top:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th{font-weight:500;font-size:13px;color:var(--mute);text-align:left;padding:0 16px 10px 0}
+.tbl td{padding:16px 16px 16px 0;border-top:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:500}
+.scroll{overflow-x:auto}
+.scroll .tbl{min-width:640px}
+h3.sub{font-size:1.15rem;font-weight:500;margin:0 0 18px}
+footer{border-top:1px solid var(--line);padding:40px 0 56px;font-size:14px;color:var(--mute)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px}
+footer b{color:var(--ink);font-weight:500}
+@media(max-width:860px){
+ .grid{grid-template-columns:1fr;gap:12px}
+ .grid>h2{padding-top:0}
+ .row{grid-template-columns:1fr;gap:12px}
+ .two,.people,.cases,.steps{grid-template-columns:1fr;gap:28px}
+ .phases{grid-template-columns:1fr 1fr}
+ .app .body{grid-template-columns:1fr}.side{display:none}.kpi{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr 1fr}.tr.h{display:none}
+ .hero{padding:64px 28px 48px}
+ section{padding:56px 0}
+}
+@media(max-width:520px){.phases{grid-template-columns:1fr}.brand{display:none}}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <span class="brand"><img src="data:image/png;base64,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" alt="">Base.vn</span>
+  <nav aria-label="Mục lục">
+   <a href="#hien-trang">Hiện trạng</a>
+   <a href="#muc-tieu">Mục tiêu</a>
+   <a href="#gia-tri">Giá trị mang lại</a>
+   <a href="#phuong-phap">Phương pháp</a>
+   <a href="#lo-trinh">Lộ trình</a>
+   <a href="#viec-can-lam">Việc cần làm</a>
+  </nav>
+ </div>
+</header>
+
+<main>
+<div class="wrap hero">
+ <div class="lock"><img src="data:image/png;base64,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" alt="Base.vn"><span>Base.vn</span><i class="x"></i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAB/lBMVEXjWF/en6Pe6OynJCJVmm0cH2PmKSgQKWsHIF+Yo5+10utnaG52mpOtWlpkXJH29/mvsLIHHV7p6+0gGDHdO0YAEjs4ToOqxrShcZYKWWNnbHaNlauvsPoyklaUo8M1XWRnbbPNdIfb2+JgbYyZnqnDwr1VPIGqs8YAAP81R3dmc45xuLh5hqVCUnx1haV7wZPdhX8zRXYAVaojgD9/Pz9/AH9ELWJ/f/9/v399lsCxPUGqRCujrMS///+7wtL/AADGQT3xv8D//wDAwr79/f0AAAAGI2ICF1kGCE3o6OvHyM+xuMkpOnDT1diRl642RnjS2eRvdpRXZo/+/v78BAOLh5NJWIWqqLK6w9O0trh4hqhuaYprZnTW5O8uFWeapLdWVG4oF1FQSW0iC1URBDOEe5ABHmCmq8KHi6ZkW3MzJlIcMmyVlJmXp8fxJyoRIlymm6v0yMjx19dMR1ZufKPDvMf2Fxf6+/sAAFQxiVFDOVXRqK5GOWX9/f0AAH87NUwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADu5Re5AAAAgHRSTlP///L//+z/GVj3//37//WnDKhl//8L////BgyjCP/y6wP/Haxp//+mAapUA6dWa///bgP/BAL/AgT///91BK0B//8Bav4A/v7+/v7+/v7+/v7+/gb//v3//v/9/v/+//7+///////8/v////79/v/+//////7//08D/////y8C/1EGE4oAABX7SURBVHjatVuHX9tI05YdMJjeQu6SXK6Xt79f713W7qpLtpol44KNO5iaBMjxr38zK7liEu6S0w8bSV7tszPzTJF2JeQeu+XzW/zfu9c7m5tpTVGUsq7rZeXVf27uvH6Xx9/ebOUf3Z3wSFTeZf7dzmba1y9cVSLjTZJUw177cScG/yr/6YDzLzkqghb3JUokwy72FV82YZN9pVm0DfUIzm682MGGn/8h/2mA8z9xVKZYAGoUFVOcs5lK0ZCI5MbYW58AGPt5tymaFxKVQoWJ79lgaCpiv3sM9AeAUcmvN0XFoMRWxEdsviUR9Y8o9tZHACOPX6fFvkTVMhMftzGtaZDFDYB+k/+1wDFsU6K1WWGZ7rqteFdxL3RFHg7LZL4ki75LpI3XudzSrwLO53PfbIqyQQ1/ElNDlYPmCXX5sY67sF8uw0FZleSwBzuyS1W0df6XA7/Mbe2IYkgXm2NQuaiJTWqLCnUD33Y0LrxsETu0ZIn4rKX7xVDWYk2oxAV9f/ULgfMvUVxFokXeiWSboiaDoKBHSWVlammKvhYjiBe0lU77xNAUStRWWRsOUycSCP2QpYWHfOi1KFrUiHvxnXKraRlikUhEDqksUxtAqB4DuERnoHGbWcRVcWgj33apvfOQuoX5uCCuqcbi4uaplJIQxCpKpEx0DcTzbZrQyzjyRNGmjtYlXtqzZEVVxkKrP+bnIwtz2ZxPiwo5GV3vU2nNJl8yUTI8qnZdphKrJaGguElSIIoqCTyI2zWFsX1qpUesWDzK5nPPHwecz71Lg+qMUuIvCui8pTGDeiCXEhAqaYoE31bAfy9JqiyaRNVsatnEAuYZAUScxBWYSzfeAVMfAfwSzXsB3E081jbQgOg34DMUOlahY61cDobGVHQZ9GPDYPS0FjCDAN1B6qFrW9R+nfv8w8BbMa2G5m2BZJopAWXYSVfTiJ0Wte+RcjORzA98g9CuxZpcYPgaNdAR+asPAX+DuOGQN9C/ivswavOCuiBZUHo4WAaQI3yLOmnRIGva+IcydV/fC93CrH25vLGjmCpoWCEgrQkJkRojF2XgxUXLxs0qTgRMUfM0sIipo9S8h/iKJsr8h/cBc9ziUF5NomUcBsRG2a6seVqS+4wTQk66houb0YUDybDGCdOFGColUU0lciIzIOcfBgY+o0kuhn00aVdDT1FQSA27LrsnkHF1RWMT6UjRXYmcuMPYqlcqTorvVWjFG9q5+G4aWZjCRf9N+Nw0wKQ2Hqgkudq3JeKWtbkG1sq2dGL7yVDiNjZSjJUTbmenI4kwmY4A1yRGwmb0V9alEAVDri/FIKo+Lyufxd83nq5SYyKBWlCdKaB5PQmsr/I/5+cCb+U2QbwTTtsiNTybroky1DIWeoZcIbV5JcjZzfp6KrW+/uTJExiAUiMVf+SI3TUwCzWS0S6qm5PUFqYDh0V57zKFYAB6loGnAZAW4o8hz4E9RUC+ZTIp3r9vQLaIFQ2BRMbaJYmf2jTBhCliKXHgKAEZui4keBKnpzKRynM9F3HX1wUhtZcR1pORlU9IrJpyIDaJpGu6qnoxwcoTBBPGBt4UmWTEOAromtpeqGI8ZjYN2QO4/5oCBd+kbjJPnqRGp0OI2HEwpUe6bNMjKbazK20CzAzwVm4HFY0CypxEFoXYD8lf1FQyt75k8vqT9TORnYlyCuS+mfhJISovvpuS9f0+VfXA4P5cIpCeX04D5/Pv0LLFOEjaaU5KA+X0iTovSp4hn1KnQCtN1J78919vpnRiJpFDllvAUhm0rMfKVt4Nc6QwZBYw2pB4HoMyI+TusCbj4O2HrLt+mvo3sLEMEgv4b2pzEzWFFBxfHuZu1RgxWxiHyiZtcruE5S41UFWgd49ac+PFDdL4r0jmJ1lQN4xitoUd+wfEI9Yk1P4+qSj0IbMTYAgdMJy4zPGYBlVdclk4PxOlEBg+mSfrKXYzBxdkJeDRDJgJd5bW94pejvmVzv/TGJgLXKYJhxgnMtpZJtYDKfAUdCyAgp+kWGp9mlljmcHOtpG2JFX/PsTaG+PQSOQYeGss8DDSexA2TioPJt8UGjmVutGy2cHZA22ME1G2gAJyAMWnZXOrocgjYC6wQqedBoZXO5mkqiZPs/s0lb1fiEx3Ibnx7wZ1yzIzJA1FLsciC/wZA1Janb2uRcZMZdmFLxcm8lIvarScRiNsOBZ8NSJ5LnLsnxiXUhp8YzUqGsZm/nk+Bs59g5FUn010RB/Js7LwdiE7KZzXCDfa7XADv6N2w9GGWvF6jtNwBkmzIpVjneM/y5V5jvd54OTAILBFZpUGKpCT+6BngDv7c3sjjLcNqzaII5kTtVcdLwjkoBMldouJo1AJM0dcIkkW92UBIsk3eOjOdKzDYEE/QUnTtIW3a0OVe0Olslb4WaPR+KzVgLKHKXojWu0Niy+tXWsnyibN+I6CBKM0LTEsCQT47NynFoyERyy2+oxl1xYWklLHq9WrYQId9Dr0ELbq7nlUiZzAG9vZ0a27817sUzF15HIwvi1RdkBkIdH0yYwqdcI53CsH6ezCQjbQsLa/rtNDWq/WktReowcHB4e3sUG0aMywtleRz5M6k8xyR1y0N1Hi57mtkXyTAvPQIffEbADASOjBdecff9jY+OyHQ0o7HKTNgWtYeWqio0BjjZfxcqRb2uowjJzMAse6Fng+lOlMom8STistgHT+bGFhLasxJwhrGwi8eFCt7wY8ARwsHhxCkIlWHSuCgTRWLcRzGpHirI5cataICpV3AJhrOlHsBKWTMFYSAy39FyC16Fmi3Lg9rB8eLh7exmVnA4ExmjuBGNzp+rkChofzkVfRzi9HXc3SlpHiZv4lsBq0485ED5OgBnxMy16QBtySWOmI4iVIfFD9oZGUuw4HBpvI197gGjbPu5OxLnRC+Xx8AzMrFEqFrH45x8RF7tXBwjO4Lvvsi7fwv3JtKrX6IkCHnV1PM2PggwPqiI7Tq9RCkUW1c8dxxEEYepYzFvBkll4XRHwHwP+ONcnMbzWeHdgCIAZrf/kCo0cFpHJqhyDkId31RLxJHXCJda2iiVzUy92BKJ/LDacir06EV9e9Z2RzB4B/xD1/htPxQJ69XXiWXVgDC8NYrmWgrHdLq7SNvjWAg0MOLAZOdN2OGGtXrqOGzNpO6EWTMX/WVU3a3ATgNKaD6Z9kkgwYMBdiYBY5PGoxa7fNC+XLQLysojsFGKnk4LpWuw7ktix6kTWIBlOlnz/rq8V0XlgCzFCaiR5D33v29guARmCQtu3wkCizOFCA11YPDw6qcARJVz+/VK51yL+i1Yi82qQg940MRH8n/Kk0dp5R7TA8Zhz57VsNIpeze40hCuoDTzuD2zIvYJ3qwWIVzjmrjg5ssgbOag817TSmulNn6ydwotfCn2Fw6gypjfFx9u3fLXzxxUL2GeSBihLIaU259IIGsLcRsTswckeLy0LH83q4o0CSjIJpHONe7BJ3hD+O4uN467TG+wtrayDyM007D72KM4juqp3baqXVcjyZ3R4eHHaGGSmK+F4jivRoBmc2aupE3ERgCCXTP1SU0U03y2azIDKkxV69TmueF3bq9cagw61YA+BbNq6V+LWO5fSmuytXZmhdpqVNYW2OG4/Y/UxjJZAY7IzlktWp77abckNnjU69HQPT2+EQoaaTgXgV0LT2gWfa4MhpoTgMkPOqNQibUAYArTGGofNe1+udFpPTrCHHWQKTk6i1ogqUQJEVhtdW6FjiB4FlEYE10nyoidbDQu/Lt5CeEiWEu53L4RNDyBJwI9k7ByNUwfS18DOn0QqHofx9wP6HgBN4KDEX/NFYRppsAXAnujtvhyBr2K4tdtTatbPKHgV8MQdY85ywUqlV2paXlFHPFr5cXbtnOo9WO4OJ5z+y59TOK85wQmgQtqH42gh1JT0H2JotT5hzB6qDcorS6u7u7l0UPxzUsmtr3kz5HFDaukdIbn3Ni67h4ir0Q2m9vnvu3bOxhe40ebkGwSFcxIxXbbK0Fui9YMZjxh1U6WA+Kz090DTGQgzm1VsLupy8tkk1UbCx0i/eu7IFcbh6+wG/kKvkvUQaVKvV+pyHRVjwCO6cyMU77QBzbt/PE61aV97LoepBPZrTBdYZAj5vUN15s4WLdLEevl/kqPKekWk49Lk+bUM2FKTSbMnFNIhCkIjSkPTruvirtxp6uYh9yZo5NcB9QzSFRaieLkb5WGm0a51q5+58VZdFBvcN842oDRxdg5KyFwCPevrce8UQapUGFMhOdA49dmrhuBloOC1sK2jseGp2cIv8Pzzc8OIBsgo9rM6RGfKv55zfRboH0QN2V+8rlLUPR5eazuJh9QC6qsjD+lb8UdhuDYtu7RzuULCagUrq1omHokMusmbt6CBhWPvc4Y+IseHq6iyv7ur0Oi6tL8NO3OnhIfQ1rPFfCMt2khdZ5bpSu1VBZgr3B7QTe54GKakz5YRifHey2hNX5fS5GNd14/qd9xzV67exuHIbCtMDjEYQy2u13VVeaZvin4VlQ0xozeKwNwhB4VBM0cX43syESLYbjec2xJ7DbyOhGPKCVRivNjyXjEs/r+9WYmPJYRVgIQTWGvHzfaxVkNSlZWFJMnktMjXz3UDsKrlzYqPITuXuPOol96rOELjXg/uaGNiLgdklbxnHbxZEVYyYUK9Msw/ElJ8KXy0qGMPk2Vn3BrAbb0md4VDlwAs4tMyr/cgTK5fauahwxbexytIUjz9k5iMYhDzkd9r6bPjD1JCFunr7Yk7xE+ssvAVu1aud60rUgGLOS+ZbIofbERM+lBvIy16FWymANroTtc/vduG6eqdiNeesZChDpP4WgLmRZwvcEbji6VaEGwR6PdASV4kCWantNmRZ370L5CBaTfjh9eB+tXJea0eW7l0+ENUgXJWWAXgJnyoNPfmRm7e6al2yXgR2V5xo9ReFN0Yssf8UgD+nxblPDH6rDflk53LCm/y2Ic57vjbvIbWQ+nhg0DTbzn0l/JxbRl2X6f2AezYLkxIE/2NxTeBxeTn3MwB/TnkVYt+Xb0+Yxb1hHwtchCLAfQrAuVxuu8umH+2dnXKc1E2KR8LT0/iTSqUGab6HDc5S8YQPHJyewt7pGbQ4w4eroCiWSs7wo6lbVIge2/wB21PQtY53y2NXFgpQdp4WYNvD5xfHGVPMXJVSV4XCcYpdFU7FTKaUgl+vUnFr2Pufs4KQPoUPHmVYqnDMzoZHZ1NO7IvWcg5Z/TM4FNLLHd+4J8CClxrEwCvi8bF5dZVNFTJmppARM3g0SGWEEm+dgvOXAANQ8M8TCl/DsIQ0P2oKV9nJcGmIJekNgIKq3+S2sbCWx6VqApxJpbh3HxcEoXB8WdgD/IyfASCBH52lmoy39tNXx17hWOCInyH+zZVQuCkIqUK2dDpQJgVWxOI2QMbAscj2yMpjVfPqNYN7CFUCwZWCkDlGYOEGTpq8deaqsK5gIwT+WkTgQgraIbCAso8tbEBNu5QA53JPt/G2zRxVZkIBBgmXr/grXOJjRc4cy4VMGnb9K+j1eA+HcXl1tcJbC8JnK2CZlZvC1/CHRropDITCFQB/DWQYA+tg4Yvt/xhODbwBeqlsONHGuzo+RoEysREz0P/VlYkA0HthDyhzPDzirVfSJURDcplXBeG4kAWJ0UJ4lAHlJ7gl8FlTWkaBk+mfN4u8BpGSVJHa29sTBsLeXmad9wz9w4cJV8dCnwnrJTY6ilsr3OvBuPBJ7V0dg/x7WXD74dF4XsYU7cWJeScQ+ejExDCaROxSqWSWcONlaXqFiSX4iOYK9FEy4zPxEZ844M8M8Tz/zcTj4VFpZaU0LvB1USHL8aKQZIrv6SJx+cSc+dtlB1QoUxf/eXKKDwK2hPxiJ8ZvB+wSDeIjhOnJSU3wZQmLLz5zLauG+ik3gz+h1LmiuQ9Pzh//15LEnfkCS+wLSj7lRg0+FWHjupCl2RnzvwVl8wUgqBCgn/TpNu6qJUnFvpeHAo/XCPzD0raEkZOhyplBpKPZ68n0//kgsz8eSQRn9kQVaFsk209/vrc4AXKFdIQlgYkjLKn3kSWSfL1XHWQWl89g1yBkNQkEy/vA6MxwlYmT83DPbI6Qj9BMR0fE3qB8/2KNn0gEnFx1jJ9/kUZrkJMWCl//04Ruj8aKnlqAsgTM5vZQ6AQyURXf1ouviq/WdFosvtrv+5Ji9/exZ7KvuHqx2L/AT5+6srLfLzbtfrGoc5YcjXDLoiYdbUManrvW5/nSooTSjpF552bT9xWz7/d9qqfT+2lzX1RM3jGE3r6vKKav9M2+SS9K6aKvi31TUfwi5RefDHGht8WxgWeAwcxDZFxPwVzKgUum3hdLut9XqG0qru/b6ZWSy/VpMx9OK6b5ygR/2RBN19fNlfQrnPDg2sJn+gboGXEnDDy7rAoJFiPjwlKsw8Bw+8wlfl/uI/C+2AdvXPP74r5k2y6xTd/sK3AYS5xWUC9KqR9LTDcgTGuLoG34kqZxZxaSfQ4JUuKrR0wVE4Z+QohhSlTRfdsv2bTLikUFRLRZbGPbL4I6lAvzlb8GEpdMW3kFR304Bfqw+JQdLgIG1k4Sa87SuSXIUxK25QttRFzzK6lorS6R0OZdvt+F/zF1cY+f7PIWXdIdnqJ8WegFrTHRI4i79P7FgjEyf46sU9XHOphyt4ljw+SS/bnuNNrFmWrNwKKmCL53D/f+8sgEGdUkq3id5pJfGkDBPkq8tFKJKbo86UgPLQjlyBJf78ssirftivGLoAlVdb7OGVd2KWig5TlLvOcsgV1CrwIXxKt9lbq48ubx0CReYGfafMzAMQn8aOlxi36fxsgEIYHY4L24Yp08Ahva8JVyJjhii6tKQtynj13m/Hnu+TaPOy18oAX0woUUZlEl9H3ggNq18G5StoEjDBeUQevtpRk/eu/CbnD1ZYi0J0RFerMimFznS9kNCcHJHEyQ1UJGsbJBEVZsYaKCvDAdNz64hp4LjfQ2PL7mWE1elGDKhYuLT8c1Ch+IYZV5majYUkwtvICL+9UvXbz/NJf/G0xPidVEGV9IcXXefcnv49Jb13Vx8W05eUnF1AGVLwplLZVwcf9+rnk/8LoCVL9bv4uh1WK8JNRSKZXcOW/DmErLleA3rhQ+RIAFcf/351/1ggaM9vdfQvJHuyayglRAMXwByAVZYbNs1wCvp6Rr8xZmy4g5sLj8a1/QiF8eyMfQGDDd5Mkgk8tFu6YOiaUadrEcP3nziwkqwOZzb376iJdwQN/5775VE2yi2vr8t47wtSMXNcPHsg2wP735yNeOcDXj1rdG94gcxW4jqa7VKiuyZpol09RkpVwM3a6U+Dg02n4ej/ijX7RChwCxje5MgprOTxLXSvd3f9p6DOwjXy17jmrL/9+3GwAujUrMiSKWn+p++bvff4Pl6ptP+TLdUryo8LsXGxUD4I9mXqYzVr/9Ln6F7+knfJkuwY5X3+ff7Xz34kVW7/V6juP0nF72xYvvkjf4ckuPf33w/wFOPm6T+PeBJgAAAABJRU5ErkJggg==" alt="Logo Trường Tiểu học Lê Hồng Phong"><span>Trường Tiểu học Lê Hồng Phong</span></div>
+ <h1>Lộ trình triển khai Base tại Trường Tiểu học Lê Hồng Phong</h1>
+ <p>Tài liệu trao đổi cho buổi kickoff với Ban tiên phong: chúng ta đang ở đâu, muốn đi đến đâu, và đi bằng cách nào.</p>
+ <div class="meta">
+  <div><b>Buổi kickoff</b>08h00, 02/10/2026 · Online</div>
+  <div><b>Quy mô</b>50 cán bộ nhân viên · 3 khối</div>
+  <div><b>Giải pháp</b>Work+ · Base Wework</div>
+  <div><b>Chuẩn bị bởi</b>Nguyễn Tuấn Vinh, Base.vn</div>
+ </div>
+</div>
+
+<!-- 1. HIỆN TRẠNG -->
+<section id="hien-trang"><div class="wrap grid">
+ <h2>Hiện trạng</h2>
+ <div>
+  <p class="lead">Công việc đang nằm rải rác trong các buổi họp, nhóm Zalo và máy cá nhân.</p>
+  <div class="row">
+   <h3>Ban giám hiệu</h3>
+   <div><small>Khó khăn hiện tại</small><p>Sau họp chưa có nơi lưu thông tin. Công việc được đôn đốc qua giao ban và Zalo nên đôi khi bị quên, gây chậm trễ. Giao việc xong không biết người nhận đã đọc chưa, và khó ghi nhận đóng góp của từng người trong sự kiện.</p></div>
+   <div><small>Mong muốn</small><p>Một nơi tập trung để giao việc, theo dõi tiến độ và tự động nhắc việc.</p></div>
+  </div>
+  <div class="row">
+   <h3>Khối chuyên môn</h3>
+   <div><small>Khó khăn hiện tại</small><p>Kế hoạch giảng dạy, hội thảo, chuyên đề nằm ở từng cá nhân. Tìm tài liệu mất thời gian và khó biết ai đang làm gì để hỏi.</p></div>
+   <div><small>Mong muốn</small><p>Một nơi quản lý tài liệu để tổ chức công việc hiệu quả hơn.</p></div>
+  </div>
+  <div class="row">
+   <h3>Khối hành chính dịch vụ</h3>
+   <div><small>Khó khăn hiện tại</small><p>Kế hoạch tuyển sinh thiếu đồng nhất thông tin. Thông tin cập nhật chậm làm trễ việc xử lý hồ sơ, và rất khó tìm lại trên Zalo.</p></div>
+   <div><small>Mong muốn</small><p>Một khu vực quản lý tập trung toàn bộ thông tin của mỗi đợt tuyển sinh.</p></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- 2. MỤC TIÊU -->
+<section id="muc-tieu"><div class="wrap grid">
+ <h2>Mục tiêu và kết quả hướng đến</h2>
+ <div>
+  <p class="lead">Một không gian làm việc số cho toàn trường, và một đội ngũ tự làm chủ nó.</p>
+  <div class="two">
+   <div><h3>Triển khai bộ ứng dụng Work+</h3><p>Số hóa và cải tiến quy trình vận hành nội bộ để giảm giấy tờ, tiết kiệm thời gian giữa các bộ phận, và đặt nền tảng cho báo cáo quản trị.</p></div>
+   <div><h3>Bàn giao công nghệ</h3><p>Cán bộ nhân viên nhà trường tiếp nhận toàn bộ công nghệ và chủ động mở rộng thiết lập theo tình hình vận hành thực tế.</p></div>
+  </div>
+  <h3 class="sub">Phạm vi và kết quả kỳ vọng</h3>
+  <div class="scroll"><table class="tbl">
+   <thead><tr><th>Đơn vị</th><th>Được số hóa trong dự án</th><th>Hạng mục bắt đầu</th><th>Kết quả kỳ vọng</th></tr></thead>
+   <tbody>
+    <tr><td>Ban giám hiệu</td><td>Không gian quản lý công việc chung của toàn trường</td><td>Kế hoạch tổ chức sự kiện năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
+    <tr><td>Khối chuyên môn</td><td>Không gian quản lý công việc của khối</td><td>Kế hoạch giảng dạy năm học 2026-2027 <span class="tag hi">Ưu tiên</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
+    <tr><td>Khối hành chính</td><td>Không gian quản lý công việc của khối</td><td>Thủ tục tiếp nhận học sinh năm học 2026-2027 <span class="tag">Triển khai sau</span></td><td>Khu vực tập trung để giao việc và quản lý kết quả công việc</td></tr>
+   </tbody>
+  </table></div>
+  <div class="demo">
+   <p>Hình dung: không gian làm việc trên Base Wework. Giao diện dựng lại theo hệ thống, dữ liệu là minh họa của nhà trường.</p>
+   <div class="tabs" role="tablist" aria-label="Màn hình minh họa">
+    <button role="tab" aria-selected="true" data-p="p0" data-n="s4">Cấu trúc</button>
+    <button role="tab" aria-selected="false" data-p="p1" data-n="s8">Công việc</button>
+    <button role="tab" aria-selected="false" data-p="p2" data-n="s8">Giao việc</button>
+    <button role="tab" aria-selected="false" data-p="p3" data-n="s8">Việc lặp lại</button>
+    <button role="tab" aria-selected="false" data-p="p4" data-n="s6">Báo cáo</button>
+   </div>
+   <div class="app" aria-live="polite">
+    <div class="top">Base.vn <span>Base Wework · Quản lý công việc và dự án</span></div>
+    <div class="body">
+     <div class="side" aria-hidden="true">
+      <div id="s0">Công việc</div><div>Công việc của tôi</div><div>Nhân viên của tôi</div><div id="s3">Dự án và phòng ban</div><div id="s4" class="on">Departments</div><div>Thành viên</div><div id="s6">Báo cáo</div>
+      <div class="g">TH LÊ HỒNG PHONG</div><div>Ban giám hiệu</div><div id="s8">Khối chuyên môn</div><div>Khối hành chính dịch vụ</div>
+     </div>
+     <div class="main">
+      <div id="p0">
+       <h4>Trường Tiểu học Lê Hồng Phong</h4><div class="sub">Department: cấp cha, chứa các dự án và phòng ban bên dưới</div>
+       <div class="tr h" style="--c:2.4fr 1fr 1.4fr 1fr"><span>Dự án và phòng ban</span><span>Loại</span><span>Thống kê</span><span>Trạng thái</span></div>
+       <div class="tr" style="--c:2.4fr 1fr 1.4fr 1fr"><div><b>Kế hoạch tổ chức sự kiện năm học 2026-2027</b><small>Không gian riêng cho một kế hoạch, có thời hạn</small></div><span>Dự án</span><div>2/18 hoàn thành<div class="pb"><i style="width:11%"></i></div></div><span class="st">Đúng tiến độ</span></div>
+       <div class="tr" style="--c:2.4fr 1fr 1.4fr 1fr"><div><b>Khối chuyên môn</b><small>Kế hoạch giảng dạy, sinh hoạt chuyên môn</small></div><span>Phòng ban</span><div>4/26 hoàn thành<div class="pb"><i style="width:15%"></i></div></div><span class="st">Đúng tiến độ</span></div>
+       <div class="tr" style="--c:2.4fr 1fr 1.4fr 1fr"><div><b>Khối hành chính dịch vụ</b><small>Tuyển sinh, văn thư, tài chính</small></div><span>Phòng ban</span><div>3/14 hoàn thành<div class="pb"><i style="width:21%"></i></div></div><span class="st">Đúng tiến độ</span></div>
+       <div class="tip">Phòng ban là các khối chức năng. Dự án là không gian riêng cho một kế hoạch cụ thể, ngang cấp với phòng ban.</div>
+      </div>
+      <div id="p1" hidden>
+       <h4>Khối chuyên môn</h4><div class="sub">Công việc chia theo nhóm, mỗi việc có người phụ trách, hạn và trạng thái</div>
+       <div class="grp">Kế hoạch giảng dạy 2026-2027</div>
+       <div class="tr" style="--c:2.6fr 1fr 1fr"><b>Xây dựng kế hoạch dạy học học kỳ I</b><small>Cô Thảo</small><span class="st">Hết hạn hôm nay</span></div>
+       <div class="tr" style="--c:2.6fr 1fr 1fr"><b>Rà soát kế hoạch giáo dục khối lớp 1</b><small>Tổ khối 1</small><span class="st r">Quá hạn</span></div>
+       <div class="tr" style="--c:2.6fr 1fr 1fr"><b>Nộp kế hoạch bài dạy tuần 1</b><small>Giáo viên chủ nhiệm</small><span class="st g">Chưa đến hạn</span></div>
+       <div class="grp">Sinh hoạt chuyên môn</div>
+       <div class="tr" style="--c:2.6fr 1fr 1fr"><b>Chuyên đề nghiên cứu bài học tháng 9</b><small>Tổ khối 3</small><span class="st y">Đang làm</span></div>
+      </div>
+      <div id="p2" hidden>
+       <h4>Tạo công việc mới</h4><div class="sub">Chỉ cần 3 thông tin: tên việc, người nhận việc và hạn hoàn thành</div>
+       <div class="fld"><span>Tên công việc *</span><b>Chốt kịch bản lễ khai giảng</b></div>
+       <div class="fld"><span>Người nhận việc</span><b>Cô Thảo · Khối chuyên môn</b></div>
+       <div class="fld"><span>Đến hạn vào</span><b>Hôm nay · Ngày mai · <u>05/09/2026</u></b></div>
+       <div class="fld"><span>Mô tả</span><span>Thống nhất chương trình, phân công người dẫn và hậu cần...</span></div>
+       <span class="btn">Tạo công việc</span>
+      </div>
+      <div id="p3" hidden>
+       <h4>Công việc lặp lại</h4><div class="sub">Thiết lập một lần, hệ thống tự sinh việc theo chu kỳ và nhắc người phụ trách</div>
+       <div class="grp">Hằng ngày</div>
+       <div class="tr" style="--c:2.4fr 1fr 1fr"><b>Báo cáo sĩ số toàn trường</b><small>Mỗi ngày</small><small>Văn thư</small></div>
+       <div class="grp">Hằng tuần</div>
+       <div class="tr" style="--c:2.4fr 1fr 1fr"><b>Họp giao ban Ban giám hiệu</b><small>Thứ Hai</small><small>Ban giám hiệu</small></div>
+       <div class="tr" style="--c:2.4fr 1fr 1fr"><b>Cập nhật tiến độ kế hoạch tuần</b><small>Thứ Sáu</small><small>Tổ trưởng các khối</small></div>
+      </div>
+      <div id="p4" hidden>
+       <h4>Báo cáo</h4><div class="sub">Lãnh đạo xem toàn bộ công việc của trường trên một trang</div>
+       <div class="kpi"><div><b>3</b>Dự án, phòng ban</div><div><b>58</b>Công việc</div><div><b>9</b>Hoàn thành</div><div><b>4</b>Quá hạn</div></div>
+       <div class="tr" style="--c:1.4fr 2fr 1fr"><b>Ban giám hiệu</b><div><div class="pb"><i style="width:11%"></i></div></div><small>2/18</small></div>
+       <div class="tr" style="--c:1.4fr 2fr 1fr"><b>Khối chuyên môn</b><div><div class="pb"><i style="width:15%"></i></div></div><small>4/26</small></div>
+       <div class="tr" style="--c:1.4fr 2fr 1fr"><b>Khối hành chính dịch vụ</b><div><div class="pb"><i style="width:21%"></i></div></div><small>3/14</small></div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+</div></section>
+
+<!-- 3. GIÁ TRỊ MANG LẠI (MOCK UP) -->
+<section id="gia-tri"><div class="wrap grid">
+ <h2>Giá trị mang lại</h2>
+ <div>
+  <p class="lead">Những gì Trường THCS Quang Trung đã đạt được sau khi triển khai.</p>
+  <!-- MOCK UP: số liệu và mô tả use-case là giả định, thay bằng dữ liệu thật của Trường THCS Quang Trung trước khi gửi khách hàng -->
+  <p class="note">Nội dung mô phỏng để đánh giá bố cục. Cần thay bằng use-case và số liệu thực của Trường THCS Quang Trung trước khi gửi khách hàng.</p>
+  <div class="cases">
+   <article class="case">
+    <span class="tag">Ban giám hiệu</span>
+    <h3>Giao việc và theo dõi sự kiện</h3>
+    <p><b>Trước:</b> giao việc qua Zalo, việc hay bị sót, khó biết ai đã đọc.</p>
+    <p><b>Sau:</b> mỗi việc có người phụ trách, hạn hoàn thành và nhắc việc tự động.</p>
+    <div class="big">Việc trễ hạn giảm 60% sau 3 tháng</div>
+   </article>
+   <article class="case">
+    <span class="tag">Khối chuyên môn</span>
+    <h3>Kho kế hoạch giảng dạy tập trung</h3>
+    <p><b>Trước:</b> tài liệu nằm ở máy từng giáo viên, mất thời gian tìm lại.</p>
+    <p><b>Sau:</b> toàn bộ kế hoạch và tài liệu của khối ở một nơi, ai cũng thấy tiến độ chung.</p>
+    <div class="big">Tìm tài liệu từ ~15 phút còn dưới 2 phút</div>
+   </article>
+   <article class="case">
+    <span class="tag">Khối hành chính</span>
+    <h3>Một nguồn thông tin cho tuyển sinh</h3>
+    <p><b>Trước:</b> thông tin tuyển sinh phân tán trên nhiều nhóm chat, hay lệch nhau.</p>
+    <p><b>Sau:</b> mỗi đợt tuyển sinh có một khu vực riêng, thông tin cập nhật tức thì cho mọi người liên quan.</p>
+    <div class="big">Xử lý hồ sơ nhanh hơn 40%</div>
+   </article>
+  </div>
+  <div class="school"><img src="data:image/png;base64,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" alt="Logo Trường THCS Quang Trung"><div><b>Trường THCS Quang Trung</b><br>Phường Trung Sơn, tỉnh Ninh Bình</div></div>
+ </div>
+</div></section>
+
+<!-- 4. PHƯƠNG PHÁP -->
+<section id="phuong-phap"><div class="wrap grid">
+ <h2>Cách thức triển khai</h2>
+ <div>
+  <p class="lead">Cùng xây, cùng thử, rồi bàn giao để nhà trường tự làm chủ.</p>
+  <div class="steps">
+   <div><h3>Đồng xây dựng cuốn chiếu</h3><p>Base tư vấn và xây giải pháp cùng Ban tiên phong theo từng vòng: thiết lập, rồi thử nghiệm, rồi hiệu chỉnh.</p></div>
+   <div><h3>Ban tiên phong làm chủ</h3><p>Ban tiên phong tiếp nhận hệ thống, hoàn thiện giải pháp với sự hỗ trợ của Base, và truyền thông nội bộ trước khi vận hành.</p></div>
+   <div><h3>Đào tạo và tối ưu liên tục</h3><p>Đào tạo tập trung cho toàn bộ cán bộ nhân viên, sau đó review định kỳ hàng tháng để tối ưu và mở rộng.</p></div>
+  </div>
+  <div class="people">
+   <div><h3 class="sub">Ban tiên phong nhà trường</h3>
+    <ul>
+     <li>Đinh Công Thái<span>Hiệu trưởng · Lãnh đạo bảo trợ</span></li>
+     <li>Trịnh Kiên Cường<span>Hiệu phó · PIC dự án</span></li>
+     <li>Đoàn Minh Đức<span>Tổ trưởng khối Hành chính - Dịch vụ</span></li>
+     <li>Lục Ngân Thảo<span>Tổ trưởng khối Chuyên môn</span></li>
+    </ul></div>
+   <div><h3 class="sub">Đội ngũ Base</h3>
+    <ul>
+     <li>Nguyễn Văn An<span>Trưởng nhóm giải pháp</span></li>
+     <li>Nguyễn Tuấn Vinh<span>Chuyên viên triển khai</span></li>
+    </ul>
+    <p style="font-size:14px;color:var(--mute);margin-top:14px">PIC báo cáo tiến độ cho lãnh đạo hằng tuần. Đội tiên phong nên gồm khoảng 3 đến 5 người.</p></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- 5. LỘ TRÌNH -->
+<section id="lo-trinh"><div class="wrap grid">
+ <h2>Lộ trình triển khai</h2>
+ <div>
+  <p class="lead">Bốn giai đoạn, từ khảo sát đến vận hành ổn định.</p>
+  <div class="phases">
+   <div class="ph"><div class="d">01/10 - 02/10</div><h3>Khảo sát và tư vấn giải pháp</h3>
+    <ul><li>Hoàn thiện công tác chuẩn bị</li><li>Hoàn chỉnh các giải pháp ưu tiên</li></ul><p>Thống nhất kế hoạch hợp tác và đồng xây dựng giải pháp cùng Ban tiên phong.</p></div>
+   <div class="ph"><div class="d">03/10 - 08/10</div><h3>Hiệu chỉnh và chuyển giao công nghệ</h3>
+    <ul><li>Hệ thống sẵn sàng Go-live</li><li>Ban tiên phong được bàn giao đầy đủ</li></ul><p>Ban tiên phong làm chủ hệ thống, truyền thông nội bộ các nghiệp vụ đã thiết lập.</p></div>
+   <div class="ph"><div class="d">09/10 - 10/10</div><h3>Đào tạo người dùng</h3>
+    <ul><li>100% nhân sự nắm thao tác hằng ngày</li><li>Chính thức đưa vào vận hành</li></ul><p>Đào tạo tập trung toàn trường và nghiệm thu dự án.</p></div>
+   <div class="ph"><div class="d">Tháng 10 - 12/2026</div><h3>Tối ưu và mở rộng</h3>
+    <ul><li>Hệ thống vận hành ổn định, tối ưu</li></ul><p>Review hằng tháng, tiếp nhận ý kiến thành viên, đánh giá hiệu quả và lên kế hoạch mở rộng.</p></div>
+  </div>
+  <h3 class="sub">Tổng quan timeline</h3>
+  <div class="scroll"><div class="gantt" role="img" aria-label="Biểu đồ Gantt lộ trình triển khai từ 01/10 đến tháng 12/2026"><div class="gr gh" style="border:0"><div class="gl">Giai đoạn và buổi làm việc</div><div class="tl"><div class="d mo" style="grid-column:1/15">Tháng 10/2026</div><div class="d mo" style="grid-column:15/18">Tháng 11 - 12</div><div class="d"><b>1</b>T5</div><div class="d"><b>2</b>T6</div><div class="d we"><b>3</b>T7</div><div class="d we"><b>4</b>CN</div><div class="d"><b>5</b>T2</div><div class="d"><b>6</b>T3</div><div class="d"><b>7</b>T4</div><div class="d"><b>8</b>T5</div><div class="d"><b>9</b>T6</div><div class="d we"><b>10</b>T7</div><div class="d we"><b>11</b>CN</div><div class="d"><b>12</b>T2</div><div class="d"><b>13</b>T3</div><div class="d"><b>14</b>T4</div><div class="d" style="grid-column:15/18"><b>...</b>đến 12/2026</div></div></div><div class="gg">Giai đoạn</div><div class="gr"><div class="gl"><b>1. Khảo sát và tư vấn giải pháp</b><small>01/10 - 02/10</small></div><div class="tl"><div class="bar" style="grid-column:1/3"></div></div></div><div class="gr"><div class="gl"><b>2. Hiệu chỉnh và chuyển giao công nghệ</b><small>03/10 - 08/10</small></div><div class="tl"><div class="bar" style="grid-column:3/9"></div></div></div><div class="gr"><div class="gl"><b>3. Đào tạo người dùng</b><small>09/10 - 10/10</small></div><div class="tl"><div class="bar" style="grid-column:9/11"></div></div></div><div class="gr"><div class="gl"><b>4. Tối ưu và mở rộng</b><small>11/10 - 12/2026</small></div><div class="tl"><div class="bar o" style="grid-column:11/18"></div></div></div><div class="gg">Buổi làm việc chính (online, 08h00)</div><div class="gr"><div class="gl"><b>Buổi 01</b><small>02/10 · Ban tiên phong</small></div><div class="tl"><div class="ms" style="grid-column:2" title="Buổi 01"></div></div></div><div class="gr"><div class="gl"><b>Buổi 02</b><small>07/10 · PIC và đại diện phòng ban</small></div><div class="tl"><div class="ms" style="grid-column:7" title="Buổi 02"></div></div></div><div class="gr"><div class="gl"><b>Buổi 03</b><small>09/10 · Toàn bộ thành viên</small></div><div class="tl"><div class="ms" style="grid-column:9" title="Buổi 03"></div></div></div><div style="border-top:1px solid var(--line)"></div></div></div>
+  <div class="steps sess">
+   <div><small>Buổi 01 · 02/10</small><p>Khởi động dự án, thống nhất kế hoạch và phương pháp làm việc. Hướng dẫn thiết lập nền tảng, phân quyền và không gian giao nhận việc Base Wework.</p></div>
+   <div><small>Buổi 02 · 07/10</small><p>Kiểm thử các giải pháp đã cấu hình. Bàn giao công nghệ: thao tác thiết lập và phân quyền trên hệ thống và ứng dụng.</p></div>
+   <div><small>Buổi 03 · 09/10</small><p>Đào tạo tập trung: thao tác hằng ngày và quy trình xử lý khi gặp lỗi.</p></div>
+  </div>
+ </div>
+</div></section>
+
+<!-- 6. VIỆC CẦN LÀM -->
+<section id="viec-can-lam"><div class="wrap grid">
+ <h2>Công việc sau buổi meeting</h2>
+ <div>
+  <p class="lead">Những việc cụ thể để bắt tay vào triển khai ngay từ tuần này.</p>
+  <p style="font-size:14px;color:var(--mute);margin:-24px 0 28px">Đề xuất để thống nhất tại buổi họp. Người phụ trách và thời hạn có thể điều chỉnh.</p>
+  <div class="scroll"><table class="tbl">
+   <thead><tr><th>Công việc</th><th>Phụ trách</th><th>Thời hạn</th></tr></thead>
+   <tbody>
+    <tr><td>Chốt thành viên Ban tiên phong (3 đến 5 người) và vai trò từng người</td><td>Lãnh đạo bảo trợ</td><td>Ngay sau buổi 01</td></tr>
+    <tr><td>Hoàn thiện danh sách tài khoản cán bộ nhân viên: họ tên, email, username, đơn vị, quản lý trực tiếp</td><td>PIC dự án</td><td>Trước 04/10</td></tr>
+    <tr><td>Đăng nhập tài khoản Owner, thiết lập nền tảng cơ bản và phân quyền</td><td>PIC dự án cùng Base</td><td>Trước 05/10</td></tr>
+    <tr><td>Mô tả nghiệp vụ hạng mục ưu tiên của Ban giám hiệu: kế hoạch tổ chức sự kiện năm học 2026-2027</td><td>Trịnh Kiên Cường</td><td>Trước 06/10</td></tr>
+    <tr><td>Mô tả nghiệp vụ hạng mục ưu tiên của khối chuyên môn: kế hoạch giảng dạy năm học 2026-2027</td><td>Lục Ngân Thảo</td><td>Trước 06/10</td></tr>
+    <tr><td>Cấu hình bản đầu tiên trên Base Wework theo các nghiệp vụ đã mô tả</td><td>Base</td><td>Trước 07/10</td></tr>
+    <tr><td>Chuẩn bị máy tính, điện thoại cá nhân và phòng họp có máy chiếu cổng HDMI cho buổi 02 và buổi 03</td><td>PIC dự án</td><td>Trước 07/10</td></tr>
+    <tr><td>Xác nhận lịch đào tạo tập trung và thông báo tới toàn trường</td><td>Lãnh đạo bảo trợ</td><td>Trước 08/10</td></tr>
+   </tbody>
+  </table></div>
+ </div>
+</div></section>
+</main>
+
+<footer>
+ <div class="wrap">
+  <div><b>Hỗ trợ trong quá trình sử dụng</b><br>Cổng hỗ trợ trực tuyến trong giờ hành chính<br>Hotline 0901 871 313<br>Nhóm trao đổi Zalo giữa Ban tiên phong và Base</div>
+  <div><b>Liên hệ dự án</b><br>Nguyễn Tuấn Vinh, Base.vn<br><a href="mailto:vinh.nguyen03@base.vn">vinh.nguyen03@base.vn</a></div>
+ </div>
+</footer>
+<script>
+document.querySelectorAll('.tabs button').forEach(function(t){t.addEventListener('click',function(){
+ document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===t)});
+ ['p0','p1','p2','p3','p4'].forEach(function(id){document.getElementById(id).hidden=(id!==t.dataset.p)});
+ document.querySelectorAll('.side div').forEach(function(d){d.classList.toggle('on',d.id===t.dataset.n)});
+});});
+</script>
+</body>
+</html>
