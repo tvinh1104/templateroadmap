@@ -111,19 +111,29 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .case p{font-size:14px;color:var(--mute);margin-bottom:10px}
 .case p b{color:var(--ink);font-weight:500}
 .case .big{font-weight:300;font-size:1.7rem;line-height:1.2;letter-spacing:-.02em;color:var(--acc);margin-top:18px}
+.road{margin-bottom:64px}
+.rh,.rr{display:grid;grid-template-columns:210px 1fr 1fr;gap:32px;padding-left:28px}
+.rh{padding-bottom:12px;font-size:14px;font-weight:500}
+.rh small{display:block;font-weight:400;font-size:12px;color:var(--mute)}
+.rr{position:relative;padding-top:26px;padding-bottom:26px;border-top:1px solid var(--line)}
+.rr:last-child{border-bottom:1px solid var(--line)}
+.rr::before{content:"";position:absolute;left:0;top:33px;width:9px;height:9px;border-radius:50%;background:var(--ink)}
+.rr .when{font-size:13px;color:var(--acc);font-weight:500}
+.rr h3{font-size:1.05rem;font-weight:600;line-height:1.35;margin-top:2px}
+.lbl{display:none;font-size:12px;font-weight:500;color:var(--mute);margin-bottom:6px}
+.goal ul{list-style:none;padding:0}
+.goal li{position:relative;padding-left:22px;font-weight:500;font-size:15px;margin-bottom:6px}
+.goal li::before{content:"";position:absolute;left:1px;top:.5em;width:10px;height:5px;border-left:2px solid var(--acc);border-bottom:2px solid var(--acc);transform:rotate(-45deg)}
+.method p{font-size:15px;color:var(--mute)}
+.method em{display:block;font-style:normal;font-size:13px;color:var(--ink);margin-top:8px}
+.method em::before{content:"→ "}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:56px}
-.steps h3,.ph h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
-.steps p,.ph p{font-size:15px;color:var(--mute)}
+.steps h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.steps p{font-size:15px;color:var(--mute)}
 .people{display:grid;grid-template-columns:1fr 1fr;gap:40px}
 .people ul{list-style:none;padding:0}
 .people li{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px solid var(--line);font-size:15px}
 .people li span{color:var(--mute);text-align:right}
-.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-bottom:64px}
-.ph{border-top:1px solid var(--ink);padding-top:16px;position:relative}
-.ph::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;border-radius:50%;background:var(--ink)}
-.ph .d{font-size:13px;color:var(--acc);font-weight:500;margin-bottom:2px}
-.ph ul{padding-left:18px;margin:8px 0 14px;font-size:14px;color:var(--mute)}
-.ph .cap{margin-top:14px}
 .tbl{width:100%;border-collapse:collapse;font-size:15px}
 .tbl th{font-weight:500;font-size:13px;color:var(--mute);text-align:left;padding:0 16px 10px 0}
 .tbl td{padding:16px 16px 16px 0;border-top:1px solid var(--line);vertical-align:top}
@@ -138,13 +148,13 @@ footer b{color:var(--ink);font-weight:500}
  .grid{grid-template-columns:1fr;gap:12px}
  .grid>h2{padding-top:0}
  .row{grid-template-columns:1fr;gap:12px}
+ .rh{display:none}.rr{grid-template-columns:1fr;gap:16px;padding-left:24px}.lbl{display:block}
  .two,.people,.cases,.steps{grid-template-columns:1fr;gap:28px}
- .phases{grid-template-columns:1fr 1fr}
  .app .body{grid-template-columns:1fr}.side{display:none}.kpi{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr 1fr}.tr.h{display:none}
  .hero{padding:64px 28px 48px}
  section{padding:56px 0}
 }
-@media(max-width:520px){.phases{grid-template-columns:1fr}.brand{display:none}}
+@media(max-width:520px){.brand{display:none}}
 </style>
 </head>
 <body>
@@ -354,16 +364,7 @@ footer b{color:var(--ink);font-weight:500}
  <h2>Lộ trình triển khai</h2>
  <div>
   <p class="lead">Bốn giai đoạn, từ khảo sát đến vận hành ổn định.</p>
-  <div class="phases">
-   <div class="ph"><div class="d">01/10 - 02/10</div><h3>Khảo sát và tư vấn giải pháp</h3>
-    <ul><li>Hoàn thiện công tác chuẩn bị</li><li>Hoàn chỉnh các giải pháp ưu tiên</li></ul><p>Thống nhất kế hoạch hợp tác và đồng xây dựng giải pháp cùng Ban tiên phong.</p></div>
-   <div class="ph"><div class="d">03/10 - 08/10</div><h3>Hiệu chỉnh và chuyển giao công nghệ</h3>
-    <ul><li>Hệ thống sẵn sàng Go-live</li><li>Ban tiên phong được bàn giao đầy đủ</li></ul><p>Ban tiên phong làm chủ hệ thống, truyền thông nội bộ các nghiệp vụ đã thiết lập.</p></div>
-   <div class="ph"><div class="d">09/10 - 10/10</div><h3>Đào tạo người dùng</h3>
-    <ul><li>100% nhân sự nắm thao tác hằng ngày</li><li>Chính thức đưa vào vận hành</li></ul><p>Đào tạo tập trung toàn trường và nghiệm thu dự án.</p></div>
-   <div class="ph"><div class="d">Tháng 10 - 12/2026</div><h3>Tối ưu và mở rộng</h3>
-    <ul><li>Hệ thống vận hành ổn định, tối ưu</li></ul><p>Review hằng tháng, tiếp nhận ý kiến thành viên, đánh giá hiệu quả và lên kế hoạch mở rộng.</p></div>
-  </div>
+  <div class="road"><div class="rh"><span>Giai đoạn</span><span>Mục tiêu<small>Đích đến cần đạt khi kết thúc giai đoạn</small></span><span>Phương pháp triển khai<small>Cách chúng ta làm để đạt mục tiêu</small></span></div><div class="rr"><div><div class="when">01/10 - 02/10</div><h3>Khảo sát và tư vấn giải pháp</h3></div><div class="goal"><div class="lbl">Mục tiêu</div><ul><li>Hoàn thiện công tác chuẩn bị</li><li>Hoàn chỉnh các giải pháp ưu tiên</li></ul></div><div class="method"><div class="lbl">Phương pháp triển khai</div><p>Thống nhất kế hoạch hợp tác và đồng xây dựng giải pháp cùng Ban tiên phong.</p><em>Buổi 01 · 02/10</em></div></div><div class="rr"><div><div class="when">03/10 - 08/10</div><h3>Hiệu chỉnh và chuyển giao công nghệ</h3></div><div class="goal"><div class="lbl">Mục tiêu</div><ul><li>Hệ thống sẵn sàng Go-live</li><li>Ban tiên phong được bàn giao đầy đủ</li></ul></div><div class="method"><div class="lbl">Phương pháp triển khai</div><p>Ban tiên phong làm chủ hệ thống, truyền thông nội bộ các nghiệp vụ đã thiết lập.</p><em>Buổi 02 · 07/10</em></div></div><div class="rr"><div><div class="when">09/10 - 10/10</div><h3>Đào tạo người dùng</h3></div><div class="goal"><div class="lbl">Mục tiêu</div><ul><li>100% nhân sự nắm thao tác hằng ngày</li><li>Chính thức đưa vào vận hành</li></ul></div><div class="method"><div class="lbl">Phương pháp triển khai</div><p>Đào tạo tập trung toàn trường và nghiệm thu dự án.</p><em>Buổi 03 · 09/10</em></div></div><div class="rr"><div><div class="when">11/10 - 12/2026</div><h3>Tối ưu và mở rộng</h3></div><div class="goal"><div class="lbl">Mục tiêu</div><ul><li>Hệ thống vận hành ổn định, tối ưu</li></ul></div><div class="method"><div class="lbl">Phương pháp triển khai</div><p>Review hằng tháng, tiếp nhận ý kiến thành viên, đánh giá hiệu quả và lên kế hoạch mở rộng.</p></div></div></div>
   <h3 class="sub">Tổng quan timeline</h3>
   <div class="scroll"><div class="gantt" role="img" aria-label="Biểu đồ Gantt lộ trình triển khai từ 01/10 đến tháng 12/2026"><div class="gr gh" style="border:0"><div class="gl">Giai đoạn và buổi làm việc</div><div class="tl"><div class="d mo" style="grid-column:1/15">Tháng 10/2026</div><div class="d mo" style="grid-column:15/18">Tháng 11 - 12</div><div class="d"><b>1</b>T5</div><div class="d"><b>2</b>T6</div><div class="d we"><b>3</b>T7</div><div class="d we"><b>4</b>CN</div><div class="d"><b>5</b>T2</div><div class="d"><b>6</b>T3</div><div class="d"><b>7</b>T4</div><div class="d"><b>8</b>T5</div><div class="d"><b>9</b>T6</div><div class="d we"><b>10</b>T7</div><div class="d we"><b>11</b>CN</div><div class="d"><b>12</b>T2</div><div class="d"><b>13</b>T3</div><div class="d"><b>14</b>T4</div><div class="d" style="grid-column:15/18"><b>...</b>đến 12/2026</div></div></div><div class="gg">Giai đoạn</div><div class="gr"><div class="gl"><b>1. Khảo sát và tư vấn giải pháp</b><small>01/10 - 02/10</small></div><div class="tl"><div class="bar" style="grid-column:1/3"></div></div></div><div class="gr"><div class="gl"><b>2. Hiệu chỉnh và chuyển giao công nghệ</b><small>03/10 - 08/10</small></div><div class="tl"><div class="bar" style="grid-column:3/9"></div></div></div><div class="gr"><div class="gl"><b>3. Đào tạo người dùng</b><small>09/10 - 10/10</small></div><div class="tl"><div class="bar" style="grid-column:9/11"></div></div></div><div class="gr"><div class="gl"><b>4. Tối ưu và mở rộng</b><small>11/10 - 12/2026</small></div><div class="tl"><div class="bar o" style="grid-column:11/18"></div></div></div><div class="gg">Buổi làm việc chính (online, 08h00)</div><div class="gr"><div class="gl"><b>Buổi 01</b><small>02/10 · Ban tiên phong</small></div><div class="tl"><div class="ms" style="grid-column:2" title="Buổi 01"></div></div></div><div class="gr"><div class="gl"><b>Buổi 02</b><small>07/10 · PIC và đại diện phòng ban</small></div><div class="tl"><div class="ms" style="grid-column:7" title="Buổi 02"></div></div></div><div class="gr"><div class="gl"><b>Buổi 03</b><small>09/10 · Toàn bộ thành viên</small></div><div class="tl"><div class="ms" style="grid-column:9" title="Buổi 03"></div></div></div><div style="border-top:1px solid var(--line)"></div></div></div>
   <div class="steps sess">
