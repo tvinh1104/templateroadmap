@@ -147,6 +147,16 @@ section{border-top:1px solid var(--line);padding:72px 0}
 .method p{font-size:15px;color:var(--mute)}
 .method em{display:block;font-style:normal;font-size:13px;color:var(--ink);margin-top:8px}
 .method em::before{content:"→ "}
+.tri{display:grid;grid-template-columns:1fr 1fr;max-width:700px;margin:8px auto 72px}
+.tri .vx h3{font-size:clamp(1.15rem,2.2vw,1.45rem);font-weight:500;letter-spacing:-.015em;line-height:1.25;margin-bottom:6px}
+.tri .vx p{font-size:14px;color:var(--mute);max-width:21em;margin:0 auto}
+.tri .t{grid-column:1/3;text-align:center;margin-bottom:16px}
+.tri .b{text-align:center;margin-top:16px;padding:0 12px}
+.tw{grid-column:1/3;position:relative}
+.tw svg{display:block;width:100%;height:auto}
+.tw polygon{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.tw circle{fill:var(--acc)}
+.tw .ctr{position:absolute;left:50%;top:64%;transform:translate(-50%,-50%);text-align:center;font-weight:300;font-size:clamp(.95rem,1.8vw,1.2rem);line-height:1.3;color:var(--mute)}
 .methods>div{border-top:2px solid var(--ink);padding-top:20px}
 .methods h3{font-size:clamp(1.25rem,2.2vw,1.6rem)!important;font-weight:500!important;letter-spacing:-.015em;line-height:1.25;margin:0!important}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:56px}
@@ -171,6 +181,7 @@ footer b{color:var(--ink);font-weight:500}
  .grid>h2{padding-top:0}
  .row{grid-template-columns:1fr;gap:12px}
  .pr{grid-template-columns:1fr 1fr}.pr li::after{display:none}
+ .tri{display:flex;flex-direction:column;max-width:none}.tw{display:none}.tri .vx{text-align:left;border-top:2px solid var(--ink);padding:16px 0 0;margin:0 0 28px}.tri .vx p{margin:0}.tri .v1{order:1}.tri .v2{order:2}.tri .v3{order:3}
  .rh{display:none}.rr{grid-template-columns:1fr;gap:16px;padding-left:24px}.lbl{display:block}
  .two,.people,.cases,.steps{grid-template-columns:1fr;gap:28px}
  .app .body{grid-template-columns:1fr}.side{display:none}.kpi{grid-template-columns:1fr 1fr}.tr{grid-template-columns:1fr 1fr}.tr.h{display:none}
@@ -353,10 +364,11 @@ footer b{color:var(--ink);font-weight:500}
  <h2>Phương pháp triển khai</h2>
  <div>
   <p class="lead">Cùng xây, cùng thử, rồi bàn giao để nhà trường tự làm chủ.</p>
-  <div class="steps methods">
-   <div><h3>Đồng xây dựng cuốn chiếu</h3></div>
-   <div><h3>Ban tiên phong làm chủ</h3></div>
-   <div><h3>Đào tạo và tối ưu liên tục</h3></div>
+  <div class="tri" aria-label="Ba phương pháp triển khai, như chiếc kiềng ba chân">
+   <div class="vx t v2"><h3>Ban tiên phong làm chủ</h3><p>Ban tiên phong tiếp nhận hệ thống, hoàn thiện giải pháp và truyền thông nội bộ trước khi vận hành.</p></div>
+   <div class="tw" aria-hidden="true"><svg viewBox="0 0 820 368"><polygon points="410,12 205,356 615,356"/><circle cx="410" cy="12" r="6"/><circle cx="205" cy="356" r="6"/><circle cx="615" cy="356" r="6"/></svg><div class="ctr">Dự án<br>bền vững</div></div>
+   <div class="vx b v1"><h3>Đồng xây dựng cuốn chiếu</h3><p>Base cùng Ban tiên phong xây giải pháp theo từng vòng: thiết lập, thử nghiệm, hiệu chỉnh.</p></div>
+   <div class="vx b v3"><h3>Đào tạo và tối ưu liên tục</h3><p>Đào tạo tập trung toàn trường, sau đó review hằng tháng để tối ưu và mở rộng.</p></div>
   </div>
   <div class="people">
    <div><h3 class="sub">Ban tiên phong nhà trường</h3>
